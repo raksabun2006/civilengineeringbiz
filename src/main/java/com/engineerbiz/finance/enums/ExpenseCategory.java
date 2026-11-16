@@ -1,0 +1,13 @@
+package com.engineerbiz.finance.enums;
+
+public enum ExpenseCategory {
+    RAW_MATERIALS,
+    EQUIPMENT_RENTAL,
+    SUBCONTRACTOR_WORK,
+    SITE_LABOR_WAGES,
+    PERMITS_LICENSES,
+    SITE_OFFICE_UTILITIES,
+    TRANSPORTATION,
+    CONSULTANT_FEES,
+    MISCELLANEOUS
+}

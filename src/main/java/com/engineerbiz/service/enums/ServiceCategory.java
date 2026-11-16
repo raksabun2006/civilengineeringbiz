@@ -1,0 +1,12 @@
+package com.engineerbiz.service.enums;
+
+public enum ServiceCategory {
+    STRUCTURAL_DESIGN,
+    MEP_DESIGN,
+    CIVIL_INFRASTRUCTURE,
+    GEOTECHNICAL,
+    PROJECT_MANAGEMENT,
+    CONSTRUCTION_SUPERVISION,
+    TOPOGRAPHICAL_SURVEY,
+    ARCHITECTURAL_COORDINATION
+}

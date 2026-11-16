@@ -1,0 +1,16 @@
+package com.engineerbiz.document.enums;
+
+public enum DocumentType {
+    ARCHITECTURAL_DRAWING,
+    STRUCTURAL_DRAWING,
+    MEP_DRAWING,
+    SOIL_TEST_REPORT,
+    BOQ_WORKSHEET,
+    SIGNED_CONTRACT,
+    VARIATION_ORDER,
+    BUILDING_PERMIT,
+    SITE_PROGRESS_PHOTO,
+    INVOICE_RECEIPT,
+    COMPLETION_CERTIFICATE,
+    OTHER
+}

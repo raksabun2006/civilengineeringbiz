@@ -1,0 +1,33 @@
+package com.engineerbiz.common.pagination;
+
+import org.springframework.data.domain.Page;
+
+import java.util.List;
+
+/**
+ * Standard paginated response structure for list endpoints.
+ *
+ * @param <T> Content item type
+ */
+public record PagedResponse<T>(
+        List<T> content,
+        int page,
+        int size,
+        long totalElements,
+        int totalPages,
+        boolean first,
+        boolean last
+) {
+
+    public static <T> PagedResponse<T> from(Page<T> page) {
+        return new PagedResponse<>(
+                page.getContent(),
+                page.getNumber(),
+                page.getSize(),
+                page.getTotalElements(),
+                page.getTotalPages(),
+                page.isFirst(),
+                page.isLast()
+        );
+    }
+}

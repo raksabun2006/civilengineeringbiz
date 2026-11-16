@@ -1,0 +1,50 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: engineerbiz-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-engineerbiz_db}
+      POSTGRES_USER: ${POSTGRES_USER:-engineerbiz_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-engineerbiz_pass}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - engineerbiz_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-engineerbiz_user} -d ${POSTGRES_DB:-engineerbiz_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - engineerbiz-net
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: engineerbiz-api
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "${SERVER_PORT:-8080}:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-engineerbiz_db}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-engineerbiz_user}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-engineerbiz_pass}
+      APP_SECURITY_JWT_SECRET_KEY: ${JWT_SECRET:-9vB#zL2!mK$9xP@7qR4wE*8tY1uI3oA6sD0fG5hJ8kL2zX4cV7bN1mQ9wE3rT5yU}
+      APP_SECURITY_JWT_ACCESS_TOKEN_EXPIRATION_MS: 3600000
+      APP_SECURITY_JWT_REFRESH_TOKEN_EXPIRATION_MS: 604800000
+    networks:
+      - engineerbiz-net
+
+volumes:
+  engineerbiz_postgres_data:
+
+networks:
+  engineerbiz-net:
+    driver: bridge
